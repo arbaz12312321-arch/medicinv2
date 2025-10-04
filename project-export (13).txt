@@ -1,0 +1,2160 @@
+PROJECT_STRUCTURE:
+
+Files included in this project:
+- project/tsconfig.app.json
+- project/.bolt/prompt
+- project/.bolt/config.json
+- project/index.html
+- project/vite.config.ts
+- project/postcss.config.js
+- project/.gitignore
+- project/tailwind.config.js
+- project/src/index.css
+- project/src/main.tsx
+- project/src/components/BatchEditor.tsx
+- project/src/components/MedicineForm.tsx
+- project/src/components/NotificationSystem.tsx
+- project/src/components/PriceChangeModal.tsx
+- project/src/components/ThemeProvider.tsx
+- project/src/App.tsx
+- project/src/vite-env.d.ts
+- project/src/utils/formValidation.ts
+- project/eslint.config.js
+- project/package.json
+- project/tsconfig.node.json
+- project/tsconfig.json
+
+PROJECT_FILES:
+
+project/tsconfig.app.json:
+```
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
+
+```
+
+project/.bolt/prompt:
+```
+For all designs I ask you to make, have them be beautiful, not cookie cutter. Make webpages that are fully featured and worthy for production.
+
+By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.
+
+Use icons from lucide-react for logos.
+
+```
+
+project/.bolt/config.json:
+```
+{
+  "template": "bolt-vite-react-ts"
+}
+
+```
+
+project/index.html:
+```
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Action-Reaction System Design</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+```
+
+project/vite.config.ts:
+```
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
+});
+
+```
+
+project/postcss.config.js:
+```
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+```
+
+project/.gitignore:
+```
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+```
+
+project/tailwind.config.js:
+```
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f0f7ff',
+          100: '#e0efff',
+          200: '#b9daff',
+          300: '#7ab8ff',
+          400: '#3A8DFF', // Main primary color
+          500: '#2563eb',
+          600: '#1d4ed8',
+          700: '#1e40af',
+          800: '#1e3a8a',
+          900: '#1e3a8a',
+        },
+        alert: {
+          orange: '#FF8C42',
+          'orange-light': '#FFA76B',
+          'orange-dark': '#E57325',
+        },
+        success: '#4CAF50',
+        disabled: '#757575',
+        'off-white': '#fefefe',
+        'near-expiry': {
+          bg: 'rgba(255, 140, 66, 0.1)',
+          border: 'rgba(255, 140, 66, 0.3)',
+        }
+      },
+      animation: {
+        'slide-in': 'slideIn 0.3s ease-out',
+        'fade-in': 'fadeIn 0.5s ease-out',
+      },
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+```
+
+project/src/index.css:
+```
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary: #3A8DFF;
+    --color-primary-dark: #2563eb;
+    --color-primary-light: #60a5fa;
+    
+    /* Alert Colors */
+    --color-alert-orange: #FF8C42;
+    --color-success: #4CAF50;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+    
+    /* Neutral Colors */
+    --color-disabled: #757575;
+    --color-off-white: #fefefe;
+    --color-near-expiry-bg: rgba(255, 140, 66, 0.1);
+    --color-near-expiry-border: rgba(255, 140, 66, 0.3);
+    
+    /* Text Colors */
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #6b7280;
+    --color-text-disabled: #9ca3af;
+  }
+  
+  [data-theme="dark"] {
+    --color-off-white: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-near-expiry-bg: rgba(255, 140, 66, 0.15);
+  }
+}
+
+@layer components {
+  /* Focus states with specific blue */
+  .focus-primary:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(58, 141, 255, 0.1);
+  }
+  
+  /* Alert badges */
+  .alert-badge {
+    background-color: var(--color-alert-orange);
+    color: white;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+  }
+  
+  /* Success confirmation */
+  .success-message {
+    background-color: var(--color-success);
+    color: white;
+  }
+  
+  /* Near expiry highlighting */
+  .near-expiry-row {
+    background-color: var(--color-near-expiry-bg);
+    border-left: 4px solid var(--color-alert-orange);
+  }
+  
+  /* Disabled state */
+  .disabled-item {
+    color: var(--color-disabled);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  /* Calm blue buttons */
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(58, 141, 255, 0.3);
+  }
+  
+  /* Expired stock alerts */
+  .expired-alert {
+    background-color: var(--color-alert-orange);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+}
+
+@layer utilities {
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-gray-500;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Focus states for accessibility */
+.form-group:focus-within label {
+  color: var(--color-primary);
+}
+
+/* Loading state */
+.loading {
+  @apply opacity-60 pointer-events-none;
+}
+
+/* Form validation states with custom colors */
+input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-error);
+}
+
+input:valid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-success);
+}
+
+/* Hover and active states for better interactivity */
+.batch-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn-hover:hover {
+  transform: translateY(-1px);
+}
+
+/* Dark mode improvements */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Dashboard specific styles */
+.dashboard-container {
+  background-color: var(--color-off-white);
+}
+
+/* Billing page styles */
+.search-input:focus,
+.barcode-input:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(58, 141, 255, 0.1) !important;
+}
+
+/* Inventory list styles */
+.inventory-row.near-expiry {
+  background-color: var(--color-near-expiry-bg);
+  border-left: 4px solid var(--color-alert-orange);
+}
+
+.inventory-row.zero-stock {
+  color: var(--color-disabled);
+  opacity: 0.6;
+}
+
+/* Status indicators */
+.status-near-expiry {
+  color: var(--color-alert-orange);
+  font-weight: 600;
+}
+
+.status-in-stock {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.status-out-of-stock {
+  color: var(--color-disabled);
+  font-weight: 600;
+}
+```
+
+project/src/main.tsx:
+```
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+```
+
+project/src/components/BatchEditor.tsx:
+```
+import React, { useState, useEffect } from 'react';
+import { useTheme } from './ThemeProvider';
+import { ArrowLeft, Moon, Sun, User, Save, X, Trash2, Plus, CreditCard, AlertTriangle } from 'lucide-react';
+import NotificationSystem from './NotificationSystem';
+import PriceChangeModal from './PriceChangeModal';
+
+interface BatchEditorProps {
+  onNavigateBack: () => void;
+}
+
+interface Batch {
+  id: string;
+  batchNo: string;
+  expiryDate: string;
+  stockQuantity: number;
+  purchasePrice: number;
+  sellingPrice: number;
+  mrp: number;
+}
+
+interface PriceChange {
+  batchNo: string;
+  changes: {
+    [key: string]: {
+      old: number;
+      new: number;
+    };
+  };
+}
+
+const BatchEditor: React.FC<BatchEditorProps> = ({ onNavigateBack }) => {
+  const { theme, toggleTheme } = useTheme();
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const [originalBatches, setOriginalBatches] = useState<Batch[]>([]);
+  const [priceChanges, setPriceChanges] = useState<PriceChange[]>([]);
+  const [showPriceChangeModal, setShowPriceChangeModal] = useState(false);
+  const [billTotal, setBillTotal] = useState(0);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  const GST_RATE = 0.12; // 12% GST
+
+  useEffect(() => {
+    loadBatches();
+  }, []);
+
+  const loadBatches = () => {
+    const savedBatches = localStorage.getItem('medicineBatches');
+    let initialBatches: Batch[];
+    
+    if (savedBatches) {
+      initialBatches = JSON.parse(savedBatches);
+    } else {
+      // Default batches with realistic expiry scenarios
+      initialBatches = [
+        {
+          id: 'batch1',
+          batchNo: 'BT2345',
+          expiryDate: '2025-12-31',
+          stockQuantity: 100,
+          purchasePrice: 75.00,
+          sellingPrice: 95.00,
+          mrp: 100.00
+        },
+        {
+          id: 'batch2',
+          batchNo: 'BT7890',
+          expiryDate: '2025-09-30', // Near expiry
+          stockQuantity: 50,
+          purchasePrice: 72.00,
+          sellingPrice: 91.00,
+          mrp: 98.00
+        },
+        {
+          id: 'batch3',
+          batchNo: 'BT1223',
+          expiryDate: '2024-12-15', // Expired
+          stockQuantity: 0, // Out of stock
+          purchasePrice: 80.00,
+          sellingPrice: 105.00,
+          mrp: 110.00
+        }
+      ];
+    }
+    
+    setBatches(initialBatches);
+    setOriginalBatches(JSON.parse(JSON.stringify(initialBatches)));
+  };
+
+  const getExpiredBatchesCount = () => {
+    const now = new Date();
+    return batches.filter(batch => new Date(batch.expiryDate) < now).length;
+  };
+
+  const saveBatches = () => {
+    localStorage.setItem('medicineBatches', JSON.stringify(batches));
+  };
+
+  const updateBatch = (batchId: string, field: keyof Batch, value: string | number) => {
+    setBatches(prev => prev.map(batch => 
+      batch.id === batchId 
+        ? { ...batch, [field]: value }
+        : batch
+    ));
+  };
+
+  const addNewBatch = () => {
+    const newBatch: Batch = {
+      id: `batch_${Date.now()}`,
+      batchNo: `BT${Math.floor(Math.random() * 10000)}`,
+      expiryDate: '',
+      stockQuantity: 0,
+      purchasePrice: 0,
+      sellingPrice: 0,
+      mrp: 0
+    };
+
+    setBatches(prev => [...prev, newBatch]);
+    setNotification({ message: 'New batch added', type: 'success' });
+  };
+
+  const deleteBatch = (batchId: string) => {
+    if (batches.length <= 1) {
+      setNotification({ message: 'At least one batch is required', type: 'error' });
+      return;
+    }
+
+    if (window.confirm('Are you sure you want to delete this batch?')) {
+      setBatches(prev => prev.filter(batch => batch.id !== batchId));
+      setNotification({ message: 'Batch deleted', type: 'success' });
+    }
+  };
+
+  const calculateBillSummary = () => {
+    // Calculate only the cost difference from price changes
+    let subtotal = 0;
+    
+    batches.forEach(batch => {
+      const originalBatch = originalBatches.find(ob => ob.id === batch.id);
+      if (originalBatch && originalBatch.purchasePrice !== batch.purchasePrice) {
+        // Only add the difference in cost for existing stock
+        const priceDifference = batch.purchasePrice - originalBatch.purchasePrice;
+        subtotal += priceDifference * batch.stockQuantity;
+      }
+    });
+
+    const gst = subtotal * GST_RATE;
+    const total = subtotal + gst;
+
+    return { subtotal, gst, total };
+  };
+
+  const detectPriceChanges = (): boolean => {
+    const changes: PriceChange[] = [];
+    
+    batches.forEach(batch => {
+      const originalBatch = originalBatches.find(ob => ob.id === batch.id);
+      if (originalBatch) {
+        const batchChanges: { [key: string]: { old: number; new: number } } = {};
+        
+        if (originalBatch.sellingPrice !== batch.sellingPrice) {
+          batchChanges.sellingPrice = {
+            old: originalBatch.sellingPrice,
+            new: batch.sellingPrice
+          };
+        }
+        
+        if (originalBatch.purchasePrice !== batch.purchasePrice) {
+          batchChanges.purchasePrice = {
+            old: originalBatch.purchasePrice,
+            new: batch.purchasePrice
+          };
+        }
+        
+        if (originalBatch.mrp !== batch.mrp) {
+          batchChanges.mrp = {
+            old: originalBatch.mrp,
+            new: batch.mrp
+          };
+        }
+        
+        if (Object.keys(batchChanges).length > 0) {
+          changes.push({
+            batchNo: batch.batchNo,
+            changes: batchChanges
+          });
+        }
+      }
+    });
+    
+    setPriceChanges(changes);
+    return changes.length > 0;
+  };
+
+  const validateAllBatches = (): boolean => {
+    return batches.every(batch => 
+      batch.batchNo &&
+      batch.expiryDate &&
+      batch.stockQuantity >= 0 &&
+      batch.sellingPrice >= 0 &&
+      batch.purchasePrice >= 0 &&
+      batch.mrp >= 0
+    );
+  };
+
+  const handleSave = () => {
+    if (!validateAllBatches()) {
+      setNotification({ message: 'Please fix all validation errors', type: 'error' });
+      return;
+    }
+
+    if (detectPriceChanges()) {
+      setShowPriceChangeModal(true);
+    } else {
+      saveBatchesAndReturn();
+    }
+  };
+
+  const saveBatchesAndReturn = () => {
+    saveBatches();
+    
+    // Update the medicine form with new batch data
+    const medicineFormBatches = batches.map(batch => {
+      const expiryDate = new Date(batch.expiryDate);
+      const now = new Date();
+      const monthsUntilExpiry = (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24 * 30);
+      
+      return {
+        name: `Batch: ${batch.batchNo}`,
+        mrp: batch.mrp,
+        expiry: expiryDate.toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        }),
+        stock: batch.stockQuantity,
+        isNearExpiry: monthsUntilExpiry <= 6 && monthsUntilExpiry > 0,
+        isExpired: expiryDate < now
+      };
+    });
+    
+    localStorage.setItem('updatedBatches', JSON.stringify(medicineFormBatches));
+    localStorage.setItem('batchCount', batches.length.toString());
+    
+    setNotification({ message: 'Batches saved successfully!', type: 'success' });
+    
+    setTimeout(() => {
+      onNavigateBack();
+    }, 1500);
+  };
+
+  const confirmPriceChanges = () => {
+    // Create checkout history entry
+    const historyEntry = {
+      id: `history_${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      type: 'PRICE_CHANGE',
+      changes: priceChanges,
+      user: 'admin',
+      reason: 'Batch price update'
+    };
+    
+    const checkoutHistory = JSON.parse(localStorage.getItem('checkoutHistory') || '[]');
+    checkoutHistory.push(historyEntry);
+    localStorage.setItem('checkoutHistory', JSON.stringify(checkoutHistory));
+    
+    // Update bill total with the price change cost
+    const { total } = calculateBillSummary();
+    setBillTotal(prev => prev + total);
+    
+    setShowPriceChangeModal(false);
+    setOriginalBatches(JSON.parse(JSON.stringify(batches)));
+    setNotification({ message: 'Price changes confirmed and logged to checkout history', type: 'success' });
+  };
+
+  const handleProcessPayment = async () => {
+    setIsProcessingPayment(true);
+    setNotification({ message: 'Processing payment...', type: 'info' });
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const currentBillTotal = billTotal;
+      const paymentData = {
+        id: `payment_${Date.now()}`,
+        amount: currentBillTotal,
+        batches: batches,
+        timestamp: new Date().toISOString(),
+        status: 'completed'
+      };
+      
+      const payments = JSON.parse(localStorage.getItem('payments') || '[]');
+      payments.push(paymentData);
+      localStorage.setItem('payments', JSON.stringify(payments));
+      
+      // Reset bill total after payment
+      setBillTotal(0);
+      
+      setNotification({ message: 'Payment processed successfully!', type: 'success' });
+    } catch (error) {
+      setNotification({ message: 'Payment processing failed', type: 'error' });
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
+
+  const handleHoldTransaction = () => {
+    const currentBillTotal = billTotal;
+    const holdData = {
+      id: `hold_${Date.now()}`,
+      batches: batches,
+      amount: currentBillTotal,
+      timestamp: new Date().toISOString(),
+      status: 'held'
+    };
+    
+    const heldTransactions = JSON.parse(localStorage.getItem('heldTransactions') || '[]');
+    heldTransactions.push(holdData);
+    localStorage.setItem('heldTransactions', JSON.stringify(heldTransactions));
+    
+    setNotification({ message: 'Transaction held successfully', type: 'success' });
+  };
+
+  const hasUnsavedChanges = (): boolean => {
+    return JSON.stringify(batches) !== JSON.stringify(originalBatches);
+  };
+
+  const handleBack = () => {
+    if (hasUnsavedChanges()) {
+      if (window.confirm('You have unsaved changes. Are you sure you want to go back?')) {
+        onNavigateBack();
+      }
+    } else {
+      onNavigateBack();
+    }
+  };
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges()) {
+      if (window.confirm('You have unsaved changes. Are you sure you want to cancel?')) {
+        onNavigateBack();
+      }
+    } else {
+      onNavigateBack();
+    }
+  };
+
+  // Recalculate bill summary whenever batches change
+  const { subtotal, gst, total } = React.useMemo(() => {
+    // For display purposes, show current price change cost
+    const currentChangeCost = calculateBillSummary();
+    return {
+      subtotal: currentChangeCost.subtotal,
+      gst: currentChangeCost.gst,
+      total: billTotal + currentChangeCost.total // Show accumulated total plus current changes
+    };
+  }, [batches, originalBatches, billTotal]);
+  const expiredBatchesCount = getExpiredBatchesCount();
+
+  return (
+    <div className="dashboard-container container mx-auto max-w-7xl p-4 min-h-screen">
+      <NotificationSystem notification={notification} onClose={() => setNotification(null)} />
+      
+      {/* Header */}
+      <header className="flex justify-between items-center mb-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm transition-colors duration-300">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleBack}
+            className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 hover:-translate-x-1"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          </button>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Batches & Price</h1>
+          {/* Alert badge for expired stock */}
+          {expiredBatchesCount > 0 && (
+            <span className="alert-badge animate-fade-in">
+              <AlertTriangle className="w-3 h-3 inline mr-1" />
+              {expiredBatchesCount} Expired Batches
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="btn-primary p-2"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition-transform duration-200 cursor-pointer">
+            <User className="w-5 h-5" />
+          </div>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-8">
+        {/* Batches Section */}
+        <div className="xl:col-span-3 space-y-6">
+          {batches.map((batch, index) => {
+            const isExpired = new Date(batch.expiryDate) < new Date();
+            const isOutOfStock = batch.stockQuantity === 0;
+            
+            return (
+              <div key={batch.id} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm transition-all duration-200 hover:shadow-md">
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Edit Batch No {index + 1}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Update details for this batch</p>
+                    {/* Expired stock alert */}
+                    {isExpired && (
+                      <div className="expired-alert mt-2 text-sm">
+                        ⚠️ This batch has expired
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => deleteBatch(batch.id)}
+                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200 hover:scale-110"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Batch No</label>
+                    <input
+                      type="text"
+                      value={batch.batchNo}
+                      onChange={(e) => updateBatch(batch.id, 'batchNo', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Expiry Date</label>
+                    <input
+                      type="date"
+                      value={batch.expiryDate}
+                      onChange={(e) => updateBatch(batch.id, 'expiryDate', e.target.value)}
+                      className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200 ${
+                        isExpired ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20' : 'border-gray-300 dark:border-gray-600'
+                      }`}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock Quantity</label>
+                    <input
+                      type="number"
+                      value={batch.stockQuantity}
+                      onChange={(e) => updateBatch(batch.id, 'stockQuantity', parseInt(e.target.value) || 0)}
+                      min="0"
+                      className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200 ${
+                        isOutOfStock ? 'border-gray-400 bg-gray-100 dark:bg-gray-600' : 'border-gray-300 dark:border-gray-600'
+                      }`}
+                      required
+                    />
+                    {isOutOfStock && (
+                      <span className="text-gray-500 text-xs mt-1">Out of stock</span>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Selling Price</label>
+                    <input
+                      type="number"
+                      value={batch.sellingPrice}
+                      onChange={(e) => updateBatch(batch.id, 'sellingPrice', parseFloat(e.target.value) || 0)}
+                      min="0"
+                      step="0.01"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Purchase Price</label>
+                    <input
+                      type="number"
+                      value={batch.purchasePrice}
+                      onChange={(e) => updateBatch(batch.id, 'purchasePrice', parseFloat(e.target.value) || 0)}
+                      min="0"
+                      step="0.01"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">MRP</label>
+                    <input
+                      type="number"
+                      value={batch.mrp}
+                      onChange={(e) => updateBatch(batch.id, 'mrp', parseFloat(e.target.value) || 0)}
+                      min="0"
+                      step="0.01"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus-primary transition-colors duration-200"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          
+          {/* Add Batch Button */}
+          <button
+            onClick={addNewBatch}
+            className="w-full bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-gray-600 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+          >
+            <Plus className="w-5 h-5" />
+            Add Another Batch
+          </button>
+        </div>
+
+        {/* Bill Section */}
+        <div className="xl:col-span-1">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md sticky top-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Bill Summary</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Tracks cost changes only. Starts at ₹0 and increases when purchase prices change.</p>
+            
+            <div className="space-y-3 mb-6">
+              {billTotal > 0 && (
+                <div className="flex justify-between items-center py-2 text-sm bg-blue-50 dark:bg-blue-900/20 px-3 rounded-lg">
+                  <span className="text-blue-600 dark:text-blue-400">Previous Changes:</span>
+                  <span className="font-medium text-blue-600 dark:text-blue-400">₹{billTotal.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center py-2 text-sm">
+                <span className="text-gray-600 dark:text-gray-400">Current Changes:</span>
+                <span className="font-medium text-gray-900 dark:text-white">₹{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center py-2 text-sm border-b border-gray-200 dark:border-gray-700">
+                <span className="text-gray-600 dark:text-gray-400">GST (12%):</span>
+                <span className="font-medium text-gray-900 dark:text-white">₹{gst.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center py-2 font-semibold text-lg border-t-2 border-gray-200 dark:border-gray-700">
+                <span className="text-gray-900 dark:text-white">Total Cost:</span>
+                <span className="text-gray-900 dark:text-white">₹{total.toFixed(2)}</span>
+              </div>
+              {total === 0 && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 italic text-center">
+                  No price changes detected
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={handleProcessPayment}
+                disabled={isProcessingPayment || total === 0}
+                className="btn-primary w-full px-4 py-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
+              >
+                <CreditCard className="w-4 h-4" />
+                {isProcessingPayment ? 'Processing...' : 'Process Payment'}
+              </button>
+              <button
+                onClick={handleHoldTransaction}
+                disabled={total === 0}
+                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 font-medium"
+              >
+                Hold Transaction
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Form Actions */}
+      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <button
+          onClick={handleCancel}
+          className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+        >
+          <X className="w-4 h-4" />
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="btn-primary px-6 py-3 flex items-center justify-center gap-2 font-medium"
+        >
+          <Save className="w-4 h-4" />
+          Save Changes
+        </button>
+      </div>
+
+      {/* Price Change Modal */}
+      {showPriceChangeModal && (
+        <PriceChangeModal
+          priceChanges={priceChanges}
+          onClose={() => setShowPriceChangeModal(false)}
+          onConfirm={confirmPriceChanges}
+        />
+      )}
+    </div>
+  );
+};
+
+export default BatchEditor;
+```
+
+project/src/components/MedicineForm.tsx:
+```
+import React, { useState, useEffect } from 'react';
+import { useTheme } from './ThemeProvider';
+import { ArrowLeft, Moon, Sun, User, Save, X, AlertTriangle, Package } from 'lucide-react';
+import FormValidation from '../utils/formValidation';
+import NotificationSystem from './NotificationSystem';
+
+interface MedicineFormProps {
+  onNavigateToBatches: () => void;
+}
+
+interface MedicineData {
+  basicInfo: {
+    medicineName: string;
+    brandName: string;
+    saltComposition: string;
+    strength: string;
+    form: string;
+    packSize: string;
+    description: string;
+  };
+  regulatoryInfo: {
+    hsnCode: string;
+    gtinBarcode: string;
+    manufacturer: string;
+    marketingCompany: string;
+    isScheduleH1: boolean;
+  };
+}
+
+interface BatchInfo {
+  name: string;
+  mrp: number;
+  expiry: string;
+  stock: number;
+  isNearExpiry?: boolean;
+  isExpired?: boolean;
+}
+
+const MedicineForm: React.FC<MedicineFormProps> = ({ onNavigateToBatches }) => {
+  const { theme, toggleTheme } = useTheme();
+  const [formData, setFormData] = useState<MedicineData>({
+    basicInfo: {
+      medicineName: '',
+      brandName: '',
+      saltComposition: '',
+      strength: '',
+      form: 'tablet',
+      packSize: '',
+      description: ''
+    },
+    regulatoryInfo: {
+      hsnCode: '',
+      gtinBarcode: '',
+      manufacturer: '',
+      marketingCompany: '',
+      isScheduleH1: false
+    }
+  });
+
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [batches, setBatches] = useState<BatchInfo[]>([]);
+  const [batchCount, setBatchCount] = useState(3);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+
+  useEffect(() => {
+    loadBatchData();
+  }, []);
+
+  const loadBatchData = () => {
+    // Load saved batches from localStorage
+    const savedBatches = localStorage.getItem('updatedBatches');
+    const savedBatchCount = localStorage.getItem('batchCount');
+    
+    if (savedBatches) {
+      setBatches(JSON.parse(savedBatches));
+    } else {
+      // Load default batches from BatchEditor's format and convert
+      const defaultBatchData = [
+        {
+          id: 'batch1',
+          batchNo: 'BT2345',
+          expiryDate: '2025-12-31',
+          stockQuantity: 100,
+          purchasePrice: 75.00,
+          sellingPrice: 95.00,
+          mrp: 100.00
+        },
+        {
+          id: 'batch2',
+          batchNo: 'BT7890',
+          expiryDate: '2025-09-30', // Near expiry
+          stockQuantity: 50,
+          purchasePrice: 72.00,
+          sellingPrice: 91.00,
+          mrp: 98.00
+        },
+        {
+          id: 'batch3',
+          batchNo: 'BT1223',
+          expiryDate: '2024-12-15', // Expired
+          stockQuantity: 0, // Out of stock
+          purchasePrice: 80.00,
+          sellingPrice: 105.00,
+          mrp: 110.00
+        }
+      ];
+      
+      // Convert to medicine form format with status checking
+      const medicineFormBatches = defaultBatchData.map(batch => {
+        const expiryDate = new Date(batch.expiryDate);
+        const now = new Date();
+        const monthsUntilExpiry = (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24 * 30);
+        
+        return {
+          name: `Batch: ${batch.batchNo}`,
+          mrp: batch.mrp,
+          expiry: expiryDate.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          }),
+          stock: batch.stockQuantity,
+          isNearExpiry: monthsUntilExpiry <= 6 && monthsUntilExpiry > 0,
+          isExpired: expiryDate < now
+        };
+      });
+      
+      setBatches(medicineFormBatches);
+      
+      // Also save the default batch data for the batch editor
+      localStorage.setItem('medicineBatches', JSON.stringify(defaultBatchData));
+    }
+    
+    if (savedBatchCount) {
+      setBatchCount(parseInt(savedBatchCount));
+    } else {
+      setBatchCount(3); // Default count
+    }
+  };
+
+  const getNearExpiryCount = () => {
+    return batches.filter(batch => batch.isNearExpiry || batch.isExpired).length;
+  };
+
+  const getOutOfStockCount = () => {
+    return batches.filter(batch => batch.stock === 0).length;
+  };
+
+  const handleInputChange = (field: string, value: string | boolean, section: 'basicInfo' | 'regulatoryInfo') => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }));
+
+    // Clear validation error when user starts typing
+    if (validationErrors[field]) {
+      setValidationErrors(prev => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    // Basic info validation
+    if (!formData.basicInfo.medicineName.trim()) {
+      errors.medicineName = 'Medicine name is required';
+    } else if (formData.basicInfo.medicineName.length < 2) {
+      errors.medicineName = 'Medicine name must be at least 2 characters';
+    }
+
+    if (!formData.basicInfo.brandName.trim()) {
+      errors.brandName = 'Brand name is required';
+    }
+
+    if (!formData.basicInfo.strength.trim()) {
+      errors.strength = 'Strength is required';
+    } else if (!/^\d+(\.\d+)?\s*(mg|g|ml|mcg|iu)$/i.test(formData.basicInfo.strength)) {
+      errors.strength = 'Please enter valid strength (e.g., 500mg, 10ml)';
+    }
+
+    if (!formData.basicInfo.form) {
+      errors.form = 'Form is required';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      setNotification({ message: 'Please fix all validation errors before saving', type: 'error' });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Save to localStorage
+      const medicines = JSON.parse(localStorage.getItem('medicines') || '[]');
+      const medicineId = Date.now().toString();
+      
+      const newMedicine = {
+        id: medicineId,
+        ...formData,
+        timestamp: new Date().toISOString()
+      };
+      
+      medicines.push(newMedicine);
+      localStorage.setItem('medicines', JSON.stringify(medicines));
+      
+      setNotification({ message: 'Medicine saved successfully!', type: 'success' });
+      
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
+      
+    } catch (error) {
+      setNotification({ message: 'Error saving medicine. Please try again.', type: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      basicInfo: {
+        medicineName: '',
+        brandName: '',
+        saltComposition: '',
+        strength: '',
+        form: 'tablet',
+        packSize: '',
+        description: ''
+      },
+      regulatoryInfo: {
+        hsnCode: '',
+        gtinBarcode: '',
+        manufacturer: '',
+        marketingCompany: '',
+        isScheduleH1: false
+      }
+    });
+    setValidationErrors({});
+    setNotification({ message: 'Form has been reset', type: 'info' });
+  };
+
+  const hasUnsavedChanges = () => {
+    return Object.values(formData.basicInfo).some(value => value !== '' && value !== 'tablet') ||
+           Object.values(formData.regulatoryInfo).some((value, index) => 
+             index === Object.keys(formData.regulatoryInfo).length - 1 ? value !== false : value !== ''
+           );
+  };
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges()) {
+      if (window.confirm('You have unsaved changes. Are you sure you want to cancel?')) {
+        resetForm();
+      }
+    } else {
+      resetForm();
+    }
+  };
+
+  const nearExpiryCount = getNearExpiryCount();
+  const outOfStockCount = getOutOfStockCount();
+
+  return (
+    <div className="dashboard-container container mx-auto max-w-6xl p-4 min-h-screen">
+      <NotificationSystem notification={notification} onClose={() => setNotification(null)} />
+      
+      {/* Header */}
+      <header className="flex justify-between items-center mb-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm transition-colors duration-300">
+        <div className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Medicine</h1>
+          {/* Dashboard Alert Badges */}
+          <div className="flex gap-2">
+            {nearExpiryCount > 0 && (
+              <span className="alert-badge animate-fade-in">
+                <AlertTriangle className="w-3 h-3 inline mr-1" />
+                {nearExpiryCount} items Near Expiry
+              </span>
+            )}
+            {outOfStockCount > 0 && (
+              <span className="alert-badge animate-fade-in">
+                <Package className="w-3 h-3 inline mr-1" />
+                {outOfStockCount} Out of Stock
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="btn-primary p-2"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition-transform duration-200 cursor-pointer">
+            <User className="w-5 h-5" />
+          </div>
+        </div>
+      </header>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className={`bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md transition-all duration-300 ${isLoading ? 'loading' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Basic Information Section */}
+          <section className="flex flex-col gap-6">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Basic Information</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter the basic details of the medicine</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label htmlFor="medicineName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Medicine Name *
+                </label>
+                <input
+                  type="text"
+                  id="medicineName"
+                  value={formData.basicInfo.medicineName}
+                  onChange={(e) => handleInputChange('medicineName', e.target.value, 'basicInfo')}
+                  placeholder="e.g. Paracetamol"
+                  className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary ${
+                    validationErrors.medicineName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                />
+                {validationErrors.medicineName && (
+                  <span className="text-red-500 text-xs mt-1">{validationErrors.medicineName}</span>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="brandName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Brand Name *
+                </label>
+                <input
+                  type="text"
+                  id="brandName"
+                  value={formData.basicInfo.brandName}
+                  onChange={(e) => handleInputChange('brandName', e.target.value, 'basicInfo')}
+                  placeholder="e.g. Crocin"
+                  className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary ${
+                    validationErrors.brandName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                />
+                {validationErrors.brandName && (
+                  <span className="text-red-500 text-xs mt-1">{validationErrors.brandName}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Search and Barcode inputs with specific blue focus */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label htmlFor="saltComposition" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Salt Composition (Search)
+                </label>
+                <input
+                  type="text"
+                  id="saltComposition"
+                  value={formData.basicInfo.saltComposition}
+                  onChange={(e) => handleInputChange('saltComposition', e.target.value, 'basicInfo')}
+                  placeholder="Search by salt composition..."
+                  className="search-input w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="strength" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Strength *
+                </label>
+                <input
+                  type="text"
+                  id="strength"
+                  value={formData.basicInfo.strength}
+                  onChange={(e) => handleInputChange('strength', e.target.value, 'basicInfo')}
+                  placeholder="e.g. 500mg"
+                  className={`barcode-input w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none ${
+                    validationErrors.strength ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                />
+                {validationErrors.strength && (
+                  <span className="text-red-500 text-xs mt-1">{validationErrors.strength}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label htmlFor="form" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Form *
+                </label>
+                <select
+                  id="form"
+                  value={formData.basicInfo.form}
+                  onChange={(e) => handleInputChange('form', e.target.value, 'basicInfo')}
+                  className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-200 focus:outline-none focus-primary cursor-pointer ${
+                    validationErrors.form ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                >
+                  <option value="">Select form</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="capsule">Capsule</option>
+                  <option value="syrup">Syrup</option>
+                  <option value="injection">Injection</option>
+                  <option value="cream">Cream</option>
+                  <option value="drops">Drops</option>
+                </select>
+                {validationErrors.form && (
+                  <span className="text-red-500 text-xs mt-1">{validationErrors.form}</span>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="packSize" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Pack Size
+                </label>
+                <input
+                  type="text"
+                  id="packSize"
+                  value={formData.basicInfo.packSize}
+                  onChange={(e) => handleInputChange('packSize', e.target.value, 'basicInfo')}
+                  placeholder="e.g. 10 tablets"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Description
+              </label>
+              <textarea
+                id="description"
+                rows={4}
+                value={formData.basicInfo.description}
+                onChange={(e) => handleInputChange('description', e.target.value, 'basicInfo')}
+                placeholder="Additional details about the medicine"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary resize-vertical"
+              />
+            </div>
+          </section>
+
+          {/* Regulatory Information Section */}
+          <section className="flex flex-col gap-6">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Regulatory Information</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Compliance and regulatory details</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label htmlFor="hsnCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  HSN Code
+                </label>
+                <input
+                  type="text"
+                  id="hsnCode"
+                  value={formData.regulatoryInfo.hsnCode}
+                  onChange={(e) => handleInputChange('hsnCode', e.target.value, 'regulatoryInfo')}
+                  placeholder="e.g. 30049099"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="gtinBarcode" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  GTIN/Barcode
+                </label>
+                <input
+                  type="text"
+                  id="gtinBarcode"
+                  value={formData.regulatoryInfo.gtinBarcode}
+                  onChange={(e) => handleInputChange('gtinBarcode', e.target.value, 'regulatoryInfo')}
+                  placeholder="e.g. 1234567890123"
+                  className="barcode-input w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label htmlFor="manufacturer" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Manufacturer
+                </label>
+                <input
+                  type="text"
+                  id="manufacturer"
+                  value={formData.regulatoryInfo.manufacturer}
+                  onChange={(e) => handleInputChange('manufacturer', e.target.value, 'regulatoryInfo')}
+                  placeholder="e.g. GSK Pharmaceuticals"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="marketingCompany" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Marketing Company
+                </label>
+                <input
+                  type="text"
+                  id="marketingCompany"
+                  value={formData.regulatoryInfo.marketingCompany}
+                  onChange={(e) => handleInputChange('marketingCompany', e.target.value, 'regulatoryInfo')}
+                  placeholder="e.g. GSK Pharmaceuticals"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 focus:outline-none focus-primary"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <input
+                type="checkbox"
+                id="scheduleH1"
+                checked={formData.regulatoryInfo.isScheduleH1}
+                onChange={(e) => handleInputChange('isScheduleH1', e.target.checked, 'regulatoryInfo')}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label htmlFor="scheduleH1" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                This is a Schedule H1 medicine (requires prescription tracking)
+              </label>
+            </div>
+          </section>
+        </div>
+
+        {/* Active Batches Section - Inventory List */}
+        <section className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Active batches: <span style={{ color: 'var(--color-primary)' }}>{batchCount}</span>
+            </h3>
+            <button
+              type="button"
+              onClick={onNavigateToBatches}
+              className="btn-primary text-sm px-4 py-2"
+            >
+              edit batches
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {batches.map((batch, index) => {
+              const isNearExpiry = batch.isNearExpiry;
+              const isExpired = batch.isExpired;
+              const isOutOfStock = batch.stock === 0;
+              
+              return (
+                <div 
+                  key={index} 
+                  className={`inventory-row border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:-translate-y-1 ${
+                    isNearExpiry || isExpired ? 'near-expiry' : 'bg-gray-50 dark:bg-gray-700'
+                  } ${isOutOfStock ? 'zero-stock' : ''}`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <span className={`font-medium text-sm ${isOutOfStock ? 'disabled-item' : 'text-gray-900 dark:text-white'}`}>
+                      {batch.name}
+                    </span>
+                    <div className="text-right">
+                      <div className="text-xs text-gray-600 dark:text-gray-400">MRP</div>
+                      <div className={`font-medium ${isOutOfStock ? 'disabled-item' : 'text-gray-900 dark:text-white'}`}>
+                        ₹{batch.mrp}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs space-y-1">
+                    <div className={isExpired ? 'expired-alert text-xs p-1 rounded' : isNearExpiry ? 'status-near-expiry' : 'text-gray-500 dark:text-gray-400'}>
+                      Exp: {batch.expiry}
+                      {isExpired && ' (EXPIRED)'}
+                      {isNearExpiry && !isExpired && ' (Near Expiry)'}
+                    </div>
+                    <div className={batch.stock > 0 ? 'status-in-stock' : 'status-out-of-stock'}>
+                      Stock: {batch.stock} {batch.stock === 0 ? '(Out of Stock)' : ''}
+                    </div>
+                  </div>
+                  {/* Expired stock alert */}
+                  {isExpired && (
+                    <div className="expired-alert mt-2 text-xs">
+                      ⚠️ Expired Stock Alert
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Form Actions */}
+        <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+          >
+            <X className="w-4 h-4" />
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn-primary px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
+          >
+            <Save className="w-4 h-4" />
+            {isLoading ? 'Saving...' : 'Save Medicine'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default MedicineForm;
+```
+
+project/src/components/NotificationSystem.tsx:
+```
+import React, { useEffect } from 'react';
+import { X, CheckCircle, XCircle, Info } from 'lucide-react';
+
+interface NotificationProps {
+  notification: {
+    message: string;
+    type: 'success' | 'error' | 'info';
+  } | null;
+  onClose: () => void;
+}
+
+const NotificationSystem: React.FC<NotificationProps> = ({ notification, onClose }) => {
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [notification, onClose]);
+
+  if (!notification) return null;
+
+  const getIcon = () => {
+    switch (notification.type) {
+      case 'success':
+        return <CheckCircle className="w-5 h-5" />;
+      case 'error':
+        return <XCircle className="w-5 h-5" />;
+      case 'info':
+      default:
+        return <Info className="w-5 h-5" />;
+    }
+  };
+
+  const getNotificationStyles = () => {
+    switch (notification.type) {
+      case 'success':
+        return 'success-message'; // Uses CSS custom property for #4CAF50
+      case 'error':
+        return 'bg-red-600';
+      case 'info':
+      default:
+        return 'bg-blue-600';
+    }
+  };
+
+  return (
+    <div
+      className={`fixed top-5 right-5 ${getNotificationStyles()} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 z-50 max-w-md animate-slide-in`}
+    >
+      {getIcon()}
+      <span className="flex-1">{notification.message}</span>
+      <button
+        onClick={onClose}
+        className="p-1 hover:bg-black hover:bg-opacity-20 rounded transition-colors duration-200"
+      >
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  );
+};
+
+export default NotificationSystem;
+```
+
+project/src/components/PriceChangeModal.tsx:
+```
+import React from 'react';
+import { X, AlertTriangle } from 'lucide-react';
+
+interface PriceChange {
+  batchNo: string;
+  changes: {
+    [key: string]: {
+      old: number;
+      new: number;
+    };
+  };
+}
+
+interface PriceChangeModalProps {
+  priceChanges: PriceChange[];
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+const PriceChangeModal: React.FC<PriceChangeModalProps> = ({
+  priceChanges,
+  onClose,
+  onConfirm
+}) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full max-h-[80vh] overflow-y-auto shadow-2xl">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="w-6 h-6 text-amber-500" />
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Price Change Detected</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+          >
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          </button>
+        </div>
+
+        <div className="p-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Price changes have been detected. This will create a checkout history entry.
+          </p>
+
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+            {priceChanges.map((change, index) => (
+              <div key={index} className="mb-4 last:mb-0">
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                  Batch: {change.batchNo}
+                </h4>
+                {Object.entries(change.changes).map(([field, values]) => (
+                  <div
+                    key={field}
+                    className="flex justify-between items-center py-2 text-sm border-b border-gray-200 dark:border-gray-600 last:border-b-0"
+                  >
+                    <span className="text-gray-600 dark:text-gray-400 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1').trim()}:
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-red-500 line-through font-mono">
+                        ₹{values.old.toFixed(2)}
+                      </span>
+                      <span className="text-gray-400">→</span>
+                      <span className="text-green-500 font-semibold font-mono">
+                        ₹{values.new.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium hover:shadow-md hover:-translate-y-0.5"
+            >
+              Confirm Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PriceChangeModal;
+```
+
+project/src/components/ThemeProvider.tsx:
+```
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+type Theme = 'light' | 'dark';
+
+interface ThemeContextType {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
+
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as Theme) || 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+export default ThemeProvider;
+```
+
+project/src/App.tsx:
+```
+import React, { useState, useEffect } from 'react';
+import MedicineForm from './components/MedicineForm';
+import BatchEditor from './components/BatchEditor';
+import ThemeProvider from './components/ThemeProvider';
+
+export type View = 'medicine-form' | 'batch-editor';
+
+function App() {
+  const [currentView, setCurrentView] = useState<View>('medicine-form');
+  
+  const navigateToView = (view: View) => {
+    setCurrentView(view);
+  };
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'batch-editor':
+        return <BatchEditor onNavigateBack={() => navigateToView('medicine-form')} />;
+      case 'medicine-form':
+      default:
+        return <MedicineForm onNavigateToBatches={() => navigateToView('batch-editor')} />;
+    }
+  };
+
+  return (
+    <ThemeProvider>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        {renderCurrentView()}
+      </div>
+    </ThemeProvider>
+  );
+}
+
+export default App;
+```
+
+project/src/vite-env.d.ts:
+```
+/// <reference types="vite/client" />
+
+```
+
+project/src/utils/formValidation.ts:
+```
+export interface ValidationRule {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  custom?: (value: any) => string | null;
+}
+
+export interface ValidationRules {
+  [field: string]: ValidationRule;
+}
+
+class FormValidation {
+  static validateField(value: any, rules: ValidationRule): string | null {
+    // Required validation
+    if (rules.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
+      return 'This field is required';
+    }
+
+    // If value is empty and not required, skip other validations
+    if (!value || (typeof value === 'string' && value.trim() === '')) {
+      return null;
+    }
+
+    // Min length validation
+    if (rules.minLength && typeof value === 'string' && value.length < rules.minLength) {
+      return `Must be at least ${rules.minLength} characters`;
+    }
+
+    // Max length validation
+    if (rules.maxLength && typeof value === 'string' && value.length > rules.maxLength) {
+      return `Must be no more than ${rules.maxLength} characters`;
+    }
+
+    // Pattern validation
+    if (rules.pattern && typeof value === 'string' && !rules.pattern.test(value)) {
+      return 'Invalid format';
+    }
+
+    // Custom validation
+    if (rules.custom) {
+      return rules.custom(value);
+    }
+
+    return null;
+  }
+
+  static validateForm(data: any, rules: ValidationRules): Record<string, string> {
+    const errors: Record<string, string> = {};
+
+    Object.keys(rules).forEach(field => {
+      const value = this.getNestedValue(data, field);
+      const error = this.validateField(value, rules[field]);
+      if (error) {
+        errors[field] = error;
+      }
+    });
+
+    return errors;
+  }
+
+  static getNestedValue(obj: any, path: string): any {
+    return path.split('.').reduce((current, key) => current?.[key], obj);
+  }
+
+  // Common validation patterns
+  static patterns = {
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    phone: /^[\d\s\-\+\(\)]+$/,
+    strength: /^\d+(\.\d+)?\s*(mg|g|ml|mcg|iu)$/i,
+    alphanumeric: /^[a-zA-Z0-9]+$/,
+    numeric: /^\d+$/,
+    decimal: /^\d+(\.\d+)?$/
+  };
+
+  // Common validation rules
+  static rules = {
+    required: { required: true },
+    email: { pattern: this.patterns.email },
+    phone: { pattern: this.patterns.phone },
+    strength: { pattern: this.patterns.strength },
+    medicineName: { 
+      required: true, 
+      minLength: 2,
+      custom: (value: string) => {
+        if (value && /^\d+$/.test(value)) {
+          return 'Medicine name cannot be only numbers';
+        }
+        return null;
+      }
+    },
+    brandName: { required: true, minLength: 1 },
+    strengthRequired: { 
+      required: true, 
+      pattern: this.patterns.strength,
+      custom: (value: string) => {
+        if (value && !this.patterns.strength.test(value)) {
+          return 'Please enter valid strength (e.g., 500mg, 10ml)';
+        }
+        return null;
+      }
+    }
+  };
+}
+
+export default FormValidation;
+```
+
+project/eslint.config.js:
+```
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  { ignores: ['dist'] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  }
+);
+
+```
+
+project/package.json:
+```
+{
+  "name": "vite-react-typescript-starter",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
+  }
+}
+
+```
+
+project/tsconfig.node.json:
+```
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+```
+
+project/tsconfig.json:
+```
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+```
+
+
+INSTRUCTIONS_FOR_BOLT:
+This is a complete project structure exported from another Bolt.new instance. Please recreate this exact project structure with all the files and their contents as shown above. Maintain the same file organization, dependencies, and functionality.
